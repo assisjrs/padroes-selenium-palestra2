@@ -1,0 +1,50 @@
+apply plugin: 'java'
+apply plugin: 'war'
+
+jar {
+    baseName = 'jsf'
+}
+
+repositories {
+    jcenter()
+    mavenLocal()
+    maven { url "http://repo1.maven.org/maven2/" }
+    maven { url "https://plugins.gradle.org/m2/" }
+    mavenCentral()
+    maven { url "https://mvnrepository.com/" }
+    maven { url "http://repository.primefaces.org" }
+}
+
+dependencies {
+    compile('org.flywaydb:flyway-core')
+
+    compile("org.springframework.boot:spring-boot-starter-security")
+
+    compile 'org.springframework:spring-webmvc:4.1.6.RELEASE'
+    compile 'org.springframework:spring-orm:4.1.6.RELEASE'
+
+    compile 'org.springframework.boot:spring-boot-starter-parent:1.1.4.RELEASE'
+    compile 'org.springframework.boot:spring-boot-starter-data-jpa:1.1.4.RELEASE'
+
+    compile group: "org.springframework.boot", name: "spring-boot-starter", version: '1.1.4.RELEASE'
+    compile group: "org.springframework.boot", name: "spring-boot-starter-aop", version: '1.1.4.RELEASE'
+    compile group: "org.springframework", name: "spring-web", version: "4.0.2.RELEASE"
+
+    compile group: "org.apache.tomcat.embed", name: "tomcat-embed-core", version: '7.0.34'
+    compile group: "org.apache.tomcat.embed", name: "tomcat-embed-logging-juli", version: '7.0.34'
+    compile group: "org.apache.tomcat.embed", name: "tomcat-embed-jasper", version: '7.0.34'
+
+
+    compile group: 'mysql', name: 'mysql-connector-java', version: '6.0.5'
+
+    compile("org.springframework.boot:spring-boot-starter-data-jpa")
+    compile group: 'org.hibernate', name: 'hibernate-validator', version: '5.4.0.Final'
+
+    providedCompile 'javax.servlet:javax.servlet-api:3.1.0'
+    compile 'javax.servlet:jstl:1.2'
+    compile 'com.sun.faces:jsf-api:2.2.5'
+    compile 'com.sun.faces:jsf-impl:2.2.5'
+
+    compile 'org.primefaces:primefaces:5.0'
+    compile 'org.primefaces.themes:bootstrap:1.0.10'
+}
