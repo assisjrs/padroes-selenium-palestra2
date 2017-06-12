@@ -5,12 +5,10 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.util.List;
-
+import static config.RunCukesTest.webDriverWait;
 import static java.util.concurrent.TimeUnit.SECONDS;
-import static org.openqa.selenium.By.id;
-import static org.openqa.selenium.By.xpath;
-import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOfElementLocated;
+import static org.openqa.selenium.support.PageFactory.initElements;
+import static org.openqa.selenium.support.ui.ExpectedConditions.elementToBeClickable;
 
 public class CadastroPage {
     private WebDriver driver;
@@ -29,25 +27,60 @@ public class CadastroPage {
     private WebElement salvar;
 
     @FindBy(linkText = "Novo Usuário")
-    private WebElement novoUsuario;
+    private WebElement novoUsuarioButton;
 
-    @FindBy(xpath = "//*[@id=\"dataTable_data\"]/tr")
-    private List<WebElement> usuarios;
+    @FindBy(id = "usuarioForm")
+    private WebElement usuarioForm;
+
+    private UsuariosPageElement usuarios;
 
     public CadastroPage(WebDriver driver){
         this.driver = driver;
-        wait = new WebDriverWait(driver, 60000);
+        wait = webDriverWait();
+
+        usuarios = initElements(driver, UsuariosPageElement.class);
+
+        driver.get("http://localhost:9090/index.xhtml");
     }
 
-    public void novoUsuario() throws InterruptedException {
-        novoUsuario.click();
+    public void novoUsuario() {
+        novoUsuarioButton().click();
 
-        wait.until(visibilityOfElementLocated(id("usuarioForm")));
+        setNomeInput(nome);
 
+        wait.withTimeout(2, SECONDS);
+
+        setEmailInput(email);
+
+        salvar().click();
+    }
+
+    private WebElement novoUsuarioButton() {
+        wait.until(elementToBeClickable(novoUsuarioButton));
+        return novoUsuarioButton;
+    }
+
+    private void setNomeInput(final String nome) {
+        wait.until(elementToBeClickable(novoUsuarioButton));
+
+        nomeInput.clear();
+
+        wait.withTimeout(1, SECONDS);
         nomeInput.sendKeys(nome);
-        emailInput.sendKeys(email);
+    }
 
-        salvar.click();
+    private void setEmailInput(final String email) {
+        wait.until(elementToBeClickable(emailInput));
+
+        emailInput.clear();
+
+        wait.withTimeout(1, SECONDS);
+        emailInput.sendKeys(email);
+    }
+
+    private WebElement salvar() {
+        wait.until(elementToBeClickable(salvar));
+        return salvar;
     }
 
     public void setNome(String nome) {
@@ -62,10 +95,7 @@ public class CadastroPage {
         return new CadastroPageAssert(this);
     }
 
-    public List<WebElement> getUsuarios() {
-        wait.until(visibilityOfElementLocated(xpath("//*[@id=\"dataTable_data\"]/tr")));
-        wait.withTimeout(5, SECONDS);
-
+    public UsuariosPageElement getUsuarios() {
         return usuarios;
     }
 }

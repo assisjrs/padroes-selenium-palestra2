@@ -7,3 +7,4 @@ Funcionalidade: Cadastrar o usuário
     Dado que eu tenha o nome do usuário como "Assis Júnior" e o email como "assisjrs@gmail.com"
     Quando eu insiro o usuário
     Então Deve exibir 2 usuários na lista
+
