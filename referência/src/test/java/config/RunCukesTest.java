@@ -3,16 +3,34 @@ package config;
 import cucumber.api.CucumberOptions;
 import cucumber.api.SnippetType;
 import cucumber.api.junit.Cucumber;
+import org.junit.AfterClass;
 import org.junit.runner.RunWith;
+
+import static config.WebDriverWrapper.getWebDriver;
 
 /**
  * Created by assis on 24/02/17.
  */
 @RunWith(Cucumber.class)
 @CucumberOptions(
-        plugin = {"pretty", "html:target/cucumber"},
-        glue = "stepDefinition",
+        plugin = "pretty",
+        glue = {"stepDefinitions", "config"},
         features = "src/test/java/features",
         snippets = SnippetType.CAMELCASE,
         strict = true)
-public class RunCukesTest {}
+public class RunCukesTest {
+    private static DBUnit dbUnit;
+
+    public static DBUnit dbUnit() {
+        if(dbUnit == null)
+            dbUnit = new DBUnit();
+
+        return dbUnit;
+    }
+
+    @AfterClass
+    public static void destruirWebDriver() {
+        getWebDriver().close();
+        getWebDriver().quit();
+    }
+}
