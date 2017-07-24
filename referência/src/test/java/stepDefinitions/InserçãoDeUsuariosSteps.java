@@ -11,7 +11,8 @@ import pageObjects.CadastroPage;
 import java.net.MalformedURLException;
 import java.sql.SQLException;
 
-import static config.RunCukesTest.dbUnit;
+import static config.DBUnit.dbUnit;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Created by assisjrs on 04/04/17.
@@ -39,7 +40,6 @@ public class  InserçãoDeUsuariosSteps {
 
     @Então("^Deve exibir (\\d+) usuários na lista$")
     public void deveExibirNaLista(int usuariosCadastrados) {
-        cadastroPage.assertThat()
-                    .quantidaDeUsuarios(usuariosCadastrados);
+        assertThat(cadastroPage.getUsuarios().size()).isEqualTo(usuariosCadastrados);
     }
 }

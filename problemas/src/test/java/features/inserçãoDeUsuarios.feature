@@ -1,10 +1,17 @@
 #language: pt
-Funcionalidade: Cadastrar o usuário
+Funcionalidade: Cadastro do usuário
 
-  Narrativa: Eu como administrador do sistema posso cadastrar um usuário.
+  Narrativa:
+    Um usuário é uma pessoa que usa o sistema como cliente ou funcionário
+    da empresa.
 
-  Cenário: Eu que sou administrador insiro o usuário Assis Júnior
-    Dado que eu tenha o nome do usuário como "Assis Júnior" e o email como "assisjrs@gmail.com"
-    Quando eu insiro o usuário
-    Então Deve exibir 2 usuários na lista
+    Apenas um administrador do sistema pode cadastrar um usuário.
 
+  Contexto:
+    Dado que já existe um usuário cadastrado
+    Quando o "administrador" realiza uma ação
+
+  Cenário: Um administrador insire um usuário
+    Dado que o nome do usuário é "Assis Júnior" e o email "assisjrs@gmail.com"
+    Quando o usuário é inserido
+    Então Devem existir 2 usuários

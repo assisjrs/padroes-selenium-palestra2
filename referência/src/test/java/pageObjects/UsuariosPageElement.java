@@ -1,6 +1,7 @@
 package pageObjects;
 
 import config.PageElement;
+import config.WaitMe;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -20,6 +21,7 @@ public class UsuariosPageElement extends AbstractList<WebElement>{
     @Autowired
     private WebDriverWait wait;
 
+    @WaitMe
     @FindBy(id = "dataTable_data")
     private WebElement dataTable_data;
 

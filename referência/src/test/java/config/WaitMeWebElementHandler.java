@@ -84,17 +84,4 @@ public class WaitMeWebElementHandler implements InvocationHandler {
             throw new IllegalArgumentException("Você só pode anotar com o @WaitMe um campo WebElement");
         }
     }
-
-    private void doWith(final Field field) throws IllegalArgumentException, IllegalAccessException {
-        makeAccessible(field);
-
-        final Class<?> type = field.getType();
-
-        if (type.isAssignableFrom(WebElement.class)) {
-            final int seconds = field.getDeclaredAnnotation(WaitMe.class).seconds();
-            //createInstance(field, seconds);
-        } else {
-            throw new IllegalArgumentException("Você só pode anotar com o @WaitMe um campo WebElement");
-        }
-    }
 }

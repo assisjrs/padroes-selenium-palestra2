@@ -2,6 +2,8 @@ package config;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.pagefactory.DefaultElementLocatorFactory;
+import org.openqa.selenium.support.pagefactory.ElementLocatorFactory;
+import org.openqa.selenium.support.pagefactory.FieldDecorator;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanPostProcessor;
@@ -16,8 +18,13 @@ public class PagePostBeanProcessor implements BeanPostProcessor {
 
     @Override
     public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
-        if(bean.getClass().isAnnotationPresent(Page.class)) {
-            final WaitMeFieldDecorator decorator = new WaitMeFieldDecorator(new DefaultElementLocatorFactory(driver), driver);
+        final Class beanClass = bean.getClass();
+        final boolean isPage = beanClass.isAnnotationPresent(Page.class);
+        final boolean isPageElement = beanClass.isAnnotationPresent(PageElement.class);
+
+        if(isPage || isPageElement) {
+            final ElementLocatorFactory locatorFactory = new DefaultElementLocatorFactory(driver);
+            final FieldDecorator decorator = new WaitMeFieldDecorator(locatorFactory, driver);
 
             initElements(decorator, bean);
         }

@@ -15,6 +15,15 @@ import java.sql.SQLException;
 import static com.github.springtestdbunit.annotation.DatabaseOperation.CLEAN_INSERT;
 
 public class DBUnit {
+    private static DBUnit dbUnit;
+
+    public static DBUnit dbUnit() {
+        if(dbUnit == null)
+            dbUnit = new DBUnit();
+
+        return dbUnit;
+    }
+
     public DataSource dbUnitDatabaseConnection() {
         final DriverManagerDataSource dataSource = new DriverManagerDataSource();
 

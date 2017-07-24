@@ -2,21 +2,29 @@ package dataObjects;
 
 import config.DataObject;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.datasource.SimpleDriverDataSource;
+import org.springframework.stereotype.Repository;
+import work.assisjrs.referencia.Usuario;
 
+import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 //@DataObject
-public class CadastroData extends JdbcTemplate {
-    @Query(nativeQuery = true, value = "select nome from usuario where email = :email")
-    public String getUsuarioPorEmail(@Param("email") final String email){
-        return null;
-    }
+//@Repository
+//@EnableJpaRepositories(entityManagerFactoryRef = "DbEntityManagerFactory", transactionManagerRef = "DbTransactionManager")
+public interface CadastroData extends CrudRepository<Usuario, Long> {
+    //@Query(nativeQuery = true, value = "select nome from usuario where email = :email")
+    //String findByEmail(@Param("email") final String email);
 
+
+    /*
     public String getUsuarioPor(final String email) throws Throwable {
         Class.forName("com.mysql.cj.jdbc.Driver");
 
@@ -41,4 +49,5 @@ public class CadastroData extends JdbcTemplate {
     public CadastroDataAssert assertThat() {
         return new CadastroDataAssert(this);
     }
+    */
 }

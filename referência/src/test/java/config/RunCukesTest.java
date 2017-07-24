@@ -19,15 +19,6 @@ import static config.WebDriverWrapper.getWebDriver;
         snippets = SnippetType.CAMELCASE,
         strict = true)
 public class RunCukesTest {
-    private static DBUnit dbUnit;
-
-    public static DBUnit dbUnit() {
-        if(dbUnit == null)
-            dbUnit = new DBUnit();
-
-        return dbUnit;
-    }
-
     @AfterClass
     public static void destruirWebDriver() {
         getWebDriver().close();

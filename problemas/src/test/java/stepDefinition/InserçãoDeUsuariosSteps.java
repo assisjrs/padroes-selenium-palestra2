@@ -1,5 +1,6 @@
 package stepDefinition;
 
+import cucumber.api.PendingException;
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
 import cucumber.api.java.pt.Dado;
@@ -38,8 +39,8 @@ public class InserçãoDeUsuariosSteps {
         driver.get("http://localhost:9090/index.xhtml");
     }
 
-    @Before
-    public void criarMassaDeDados() throws ClassNotFoundException, SQLException {
+    @Dado("^que já existe um usuário cadastrado$")
+    public void queJáExisteUmUsuárioCadastrado() throws ClassNotFoundException, SQLException {
         Class.forName("com.mysql.cj.jdbc.Driver");
 
         final String url = "jdbc:mysql://localhost:3306/selenium_exemplo?useSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
@@ -65,13 +66,13 @@ public class InserçãoDeUsuariosSteps {
         connection.close();
     }
 
-    @Dado("^que eu tenha o nome do usuário como \"([^\"]*)\" e o email como \"([^\"]*)\"$")
+    @Dado("^que o nome do usuário é \"([^\"]*)\" e o email \"([^\"]*)\"$")
     public void queEuTenhaONomeDoUsuárioComoEOEmail(String nome, String email) {
         this.nome = nome;
         this.email = email;
     }
 
-    @Quando("^eu insiro o usuário$")
+    @Quando("^o usuário é inserido$")
     public void euInsiroOUsuário() throws InterruptedException {
         final WebElement novoUsuario = driver.findElement(By.linkText("Novo Usuário"));
         novoUsuario.click();
@@ -96,7 +97,7 @@ public class InserçãoDeUsuariosSteps {
         salvar.click();
     }
 
-    @Então("^Deve exibir (\\d+) usuários na lista$")
+    @Então("^Devem existir (\\d+) usuários$")
     public void deveExibirNaLista(int usuariosCadastrados) {
         wait.until(visibilityOfElementLocated(xpath("//*[@id=\"dataTable_data\"]/tr")));
         wait.withTimeout(5, SECONDS);

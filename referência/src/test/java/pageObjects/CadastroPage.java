@@ -9,6 +9,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import static java.util.concurrent.TimeUnit.SECONDS;
+import static org.openqa.selenium.By.xpath;
 import static org.openqa.selenium.support.ui.ExpectedConditions.elementToBeClickable;
 
 @Page
@@ -48,25 +49,16 @@ public class CadastroPage {
     public void novoUsuario() {
         driver.get("http://localhost:9090/index.xhtml");
 
-        novoUsuarioButton().click();
+        novoUsuarioButton.click();
 
         setNomeInput(nome);
 
-        wait.withTimeout(2, SECONDS);
-
         setEmailInput(email);
 
-        salvar().click();
-    }
-
-    private WebElement novoUsuarioButton() {
-        wait.until(elementToBeClickable(novoUsuarioButton));
-        return novoUsuarioButton;
+        salvar.click();
     }
 
     private void setNomeInput(final String nome) {
-        wait.until(elementToBeClickable(novoUsuarioButton));
-
         nomeInput.clear();
 
         wait.withTimeout(1, SECONDS);
@@ -74,17 +66,10 @@ public class CadastroPage {
     }
 
     private void setEmailInput(final String email) {
-        wait.until(elementToBeClickable(emailInput));
-
         emailInput.clear();
 
         wait.withTimeout(1, SECONDS);
         emailInput.sendKeys(email);
-    }
-
-    private WebElement salvar() {
-        wait.until(elementToBeClickable(salvar));
-        return salvar;
     }
 
     public void setNome(String nome) {
@@ -95,12 +80,20 @@ public class CadastroPage {
         this.email = email;
     }
 
-    public CadastroPageAssert assertThat() {
-        driver.get("http://localhost:9090/index.xhtml");
-        return new CadastroPageAssert(this);
-    }
-
     public UsuariosPageElement getUsuarios() {
         return usuarios;
+    }
+
+    public WebElement getRowBy(final String usuario) {
+        for (final WebElement tr: usuarios) {
+            for (final WebElement td: tr.findElements(xpath("td[2]"))) {
+                final String text = td.getText();
+
+                if(usuario.equalsIgnoreCase(text))
+                    return td;
+            }
+        }
+
+        return null;
     }
 }

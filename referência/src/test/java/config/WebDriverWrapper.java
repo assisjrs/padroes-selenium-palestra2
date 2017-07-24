@@ -19,11 +19,9 @@ public class WebDriverWrapper implements WebDriver, JavascriptExecutor,
         FindsByCssSelector, FindsByTagName, FindsByXPath,
         HasInputDevices, HasCapabilities, TakesScreenshot {
 
-    private WebDriverWait wait;
-
     @Bean
     public WebDriverWait webDriverWait() {
-        return new WebDriverWait(getWebDriver(), 10);
+        return new WebDriverWait(getWebDriver(), 60);
     }
 
     private static WebDriver webDriver;
@@ -36,18 +34,33 @@ public class WebDriverWrapper implements WebDriver, JavascriptExecutor,
     }
 
     @Override
-    public void get(String url) {
-        getWebDriver().get(url);
+    public void get(final String url) {
+        try {
+            getWebDriver().get(url);
+        }catch (Exception e) {
+            webDriver = null;
+            getWebDriver().get(url);
+        }
     }
 
     @Override
     public String getCurrentUrl() {
-        return getWebDriver().getCurrentUrl();
+        try {
+            return getWebDriver().getCurrentUrl();
+        }catch (Exception e) {
+            webDriver = null;
+            return getWebDriver().getCurrentUrl();
+        }
     }
 
     @Override
     public String getTitle() {
-        return getWebDriver().getTitle();
+        try {
+            return getWebDriver().getTitle();
+        }catch (Exception e) {
+            webDriver = null;
+            return getWebDriver().getTitle();
+        }
     }
 
     @Override
@@ -67,12 +80,22 @@ public class WebDriverWrapper implements WebDriver, JavascriptExecutor,
 
     @Override
     public void close() {
-        getWebDriver().close();
+        try {
+            getWebDriver().close();
+        }catch (Exception e) {
+            webDriver = null;
+            getWebDriver().close();
+        }
     }
 
     @Override
     public void quit() {
-        getWebDriver().quit();
+        try {
+            getWebDriver().quit();
+        }catch (Exception e) {
+            webDriver = null;
+            getWebDriver().quit();
+        }
     }
 
     @Override
