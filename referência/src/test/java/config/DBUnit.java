@@ -5,7 +5,9 @@ import org.dbunit.DatabaseUnitException;
 import org.dbunit.database.DatabaseConnection;
 import org.dbunit.dataset.IDataSet;
 import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.context.annotation.Bean;
+import org.springframework.jdbc.datasource.SimpleDriverDataSource;
+import org.springframework.stereotype.Component;
 
 import javax.sql.DataSource;
 import java.io.File;
@@ -14,20 +16,13 @@ import java.sql.SQLException;
 
 import static com.github.springtestdbunit.annotation.DatabaseOperation.CLEAN_INSERT;
 
+@Component("dbUnit")
 public class DBUnit {
-    private static DBUnit dbUnit;
-
-    public static DBUnit dbUnit() {
-        if(dbUnit == null)
-            dbUnit = new DBUnit();
-
-        return dbUnit;
-    }
-
+    @Bean("dataSource")
     public DataSource dbUnitDatabaseConnection() {
-        final DriverManagerDataSource dataSource = new DriverManagerDataSource();
+        final SimpleDriverDataSource dataSource = new SimpleDriverDataSource();
 
-        dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
+        dataSource.setDriverClass(com.mysql.cj.jdbc.Driver.class);
         dataSource.setUrl("jdbc:mysql://localhost/selenium_exemplo?useSSL=false&nullCatalogMeansCurrent=true&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&useSSL=false");
         dataSource.setUsername("root");
         dataSource.setPassword("1234");

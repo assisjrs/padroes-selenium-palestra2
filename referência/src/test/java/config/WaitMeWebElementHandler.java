@@ -13,6 +13,7 @@ import java.lang.reflect.Method;
 
 import static org.openqa.selenium.support.ui.ExpectedConditions.elementToBeClickable;
 import static org.openqa.selenium.support.ui.ExpectedConditions.elementToBeSelected;
+import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOf;
 import static org.springframework.util.ReflectionUtils.makeAccessible;
 
 public class WaitMeWebElementHandler implements InvocationHandler {
@@ -74,7 +75,7 @@ public class WaitMeWebElementHandler implements InvocationHandler {
             }
 
             if ("clear".equals(method.getName())) {
-                wait.until(elementToBeClickable(element));
+                wait.until(visibilityOf(element));
             }
 
             if ("isSelected".equals(method.getName())) {

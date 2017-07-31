@@ -1,5 +1,6 @@
 package stepDefinitions;
 
+import config.DBUnit;
 import cucumber.api.java.Before;
 import cucumber.api.java.pt.Dado;
 import cucumber.api.java.pt.Então;
@@ -11,7 +12,6 @@ import pageObjects.CadastroPage;
 import java.net.MalformedURLException;
 import java.sql.SQLException;
 
-import static config.DBUnit.dbUnit;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
@@ -21,10 +21,13 @@ public class  InserçãoDeUsuariosSteps {
     @Autowired
     private CadastroPage cadastroPage;
 
+    @Autowired
+    private DBUnit dbUnit;
+
     @Before
     public void criarMassaDeDados() throws DatabaseUnitException, SQLException,
                                            MalformedURLException {
-        dbUnit().cleanInsert("InserçãoDeUsuarios.xml");
+        dbUnit.cleanInsert("InserçãoDeUsuarios.xml");
     }
 
     @Dado("^que eu tenha o nome do usuário como \"([^\"]*)\" e o email como \"([^\"]*)\"$")
@@ -34,12 +37,13 @@ public class  InserçãoDeUsuariosSteps {
     }
 
     @Quando("^eu insiro o usuário$")
-    public void euInsiroOUsuário() {
+    public void euInsiroOUsuário() throws InterruptedException {
+        cadastroPage.acessar();
         cadastroPage.novoUsuario();
     }
 
     @Então("^Deve exibir (\\d+) usuários na lista$")
-    public void deveExibirNaLista(int usuariosCadastrados) {
+    public void deveExibirNaLista(int usuariosCadastrados) throws InterruptedException{
         assertThat(cadastroPage.getUsuarios().size()).isEqualTo(usuariosCadastrados);
     }
 }

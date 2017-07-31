@@ -11,10 +11,6 @@
 
     <context:property-placeholder location="classpath:application.properties"/>
 
-    <!--
-    <jpa:repositories base-package="dataObjects" />
-    -->
-
     <context:component-scan base-package="config"/>
     <context:component-scan base-package="stepDefinitions"/>
     <context:component-scan base-package="dataObjects"/>
